@@ -205,6 +205,10 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) ) {
 		private function includes() {
 			require_once AFFWP_ALP_PLUGIN_DIR . 'includes/class-shortcodes.php';
 			require_once AFFWP_ALP_PLUGIN_DIR . 'includes/class-functions.php';
+
+			if ( is_admin() ) {
+				require_once AFFWP_ALP_PLUGIN_DIR . 'includes/class-admin.php';
+			}
 		}
 
 
@@ -218,8 +222,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) ) {
 		 */
 		private function hooks() {
 
-			// add bio field to registration form.
-			// @todo make this an option
+			// add bio field to registration form
 			add_action( 'affwp_register_fields_before_tos', array( $this, 'add_bio_field' ) );
 
 			// save/update bio field
@@ -257,11 +260,32 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) ) {
 		}
 
 		/**
+		 * Is bio field enabled
+		 *
+		 * @since 1.0.0
+		 */
+		public function bio_field_enabled() {
+
+			$bio = affiliate_wp()->settings->get( 'alp_bio' );
+
+			if ( $bio ) {
+				return true;
+			}
+
+			return false;
+
+		}
+
+		/**
 		 * Add bio field to registration form
 		 *
 		 * @since 1.0.0
 		 */
 		public function add_bio_field() {
+
+			if ( ! $this->bio_field_enabled() ) {
+				return;
+			}
 
 			$bio = isset( $_POST['affwp_bio'] ) ? sanitize_text_field( $_POST['affwp_bio'] ) : '';
 
@@ -306,7 +330,6 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) ) {
 
 		}
 
-
 		/**
 		 * Make the bio field required and show an error message when not filled in
 		 *
@@ -314,10 +337,14 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) ) {
 		 */
 		public function process_register_form() {
 
+			if ( ! $this->bio_field_enabled() ) {
+				return;
+			}
+
 			$affiliate_wp = affiliate_wp();
 
 			if ( empty( $_POST['affwp_bio'] ) ) {
-				$affiliate_wp->register->add_error( 'bio_invalid', 'Please enter a bio' );
+				$affiliate_wp->register->add_error( 'bio_invalid', __( 'Please enter a bio', 'affiliatewp-affiliate-landing-pages' ) );
 			}
 
 		}
@@ -333,7 +360,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) ) {
 	 *
 	 * Example: <?php $affwp_alp = affiliatewp_landing_pages(); ?>
 	 *
-	 * @since 1.0
+	 * @since 1.0.0
 	 * @return object The one true AffiliateWP_Affiliate_Landing_Pages Instance
 	 */
 	function affiliatewp_landing_pages() {
