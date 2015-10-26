@@ -5,12 +5,9 @@ class AffiliateWP_Affiliate_Landing_Pages_Shortcodes {
 	public function __construct() {
 
         add_shortcode( 'affiliate_landing_page_bio', array( $this, 'shortcode_bio' ) );
-		add_shortcode( 'affiliate_landing_page_affiliate_name', array( $this, 'shortcode_affiliate_name' ) );
-		add_shortcode( 'affiliate_landing_page_affiliate_website', array( $this, 'shortcode_affiliate_website' ) );
-		add_shortcode( 'affiliate_landing_page_affiliate_gravatar', array( $this, 'shortcode_affiliate_gravatar' ) );
-
-		// for integration
-		add_shortcode( 'affiliate_details', array( $this, 'shortcode_affiliate_details' ) );
+		add_shortcode( 'affiliate_landing_page_name', array( $this, 'shortcode_affiliate_name' ) );
+		add_shortcode( 'affiliate_landing_page_website', array( $this, 'shortcode_affiliate_website' ) );
+		add_shortcode( 'affiliate_landing_page_gravatar', array( $this, 'shortcode_affiliate_gravatar' ) );
 
 	}
 

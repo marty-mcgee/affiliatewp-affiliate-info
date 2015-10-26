@@ -2,30 +2,53 @@
 
 class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
-	public function __construct() {}
+	public function __construct() {
+	}
 
 	/**
 	 * Get the affiliate ID
 	 */
 	public function get_affiliate_id() {
 
-		$get_referral_var = affiliate_wp()->tracking->get_referral_var();
+		global $wp_query;
 
-		// get the affiliate ID from query string
-		$ref_value = isset( $_GET[$get_referral_var] ) ? $_GET[$get_referral_var] : '';
+		// credit last referrer enabled
+		$credit_last_referrer = affiliate_wp()->settings->get( 'referral_credit_last' );
 
-		if ( isset( $ref_value ) && affwp_is_affiliate( affwp_get_affiliate_user_id( $ref_value ) ) ) {
-			// if affiliate ID is set in query string make sure they're actually an affiliate
-			$affiliate_id = $ref_value;
-		} elseif ( affiliate_wp()->tracking->get_affiliate_id() && affwp_is_affiliate( affwp_get_affiliate_user_id( affiliate_wp()->tracking->get_affiliate_id() ) ) ) {
-			// get the affiliate ID from the cookie
-			$affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
+		// get referral variable (eg ref)
+		$referral_var = affiliate_wp()->tracking->get_referral_var();
+
+		// if credit last referrer is enabled it needs to get the affiliate ID from the URL straight away
+		if ( $credit_last_referrer ) {
+
+			if ( isset( $wp_query->query[$referral_var] ) ) {
+				// get affiliate ID from query vars (pretty affiliate URLs)
+				$affiliate_id = $wp_query->query[$referral_var];
+			} elseif ( affiliate_wp()->tracking->get_affiliate_id() ) {
+				// get affiliate ID from cookies
+				$affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
+			} else {
+				// no affiliate ID
+				$affiliate_id = '';
+			}
+
 		} else {
-			// no affiliate ID
-			$affiliate_id = '';
+
+			// get affiliate from cookie first
+			if ( affiliate_wp()->tracking->get_affiliate_id() ) {
+				$affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
+			} elseif ( isset( $wp_query->query[$referral_var] ) ) {
+				// get affiliate ID from query vars (pretty and non-pretty affiliate URLs)
+				$affiliate_id = $wp_query->query[$referral_var];
+			} else {
+				// no affiliate ID
+				$affiliate_id = '';
+			}
+
 		}
 
-		if ( $affiliate_id ) {
+		// finally, check if they are a valid affiliate
+		if ( $affiliate_id && affwp_is_affiliate( affwp_get_affiliate_user_id( $affiliate_id ) ) && affwp_is_active_affiliate( $affiliate_id ) ) {
 			return $affiliate_id;
 		}
 
@@ -137,6 +160,8 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	/**
 	 * Display the affiliates bio
+	 *
+	 * @since 1.0.0
 	 */
 	 public function show_affiliate_bio( $atts = array() ) {
 
@@ -160,6 +185,8 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	 /**
  	 * Display the affiliates details
+	 *
+	 * @since 1.0.0
  	 */
  	 public function show_affiliate_details( $atts = array() ) {
 
@@ -184,6 +211,8 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	 /**
 	  * Display the affiliate's name
+	  *
+	  * @since 1.0.0
 	  */
 	 public function show_affiliate_name( $atts = array() ) {
 
@@ -207,6 +236,8 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	 /**
 	  * Display the affiliate's website
+	  *
+	  * @since 1.0.0
 	  */
 	 public function show_affiliate_website( $atts = array() ) {
 
@@ -230,6 +261,8 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	 /**
 	  * Display the affiliate's gravatar
+	  *
+	  * @since 1.0.0
 	  */
 	 public function show_affiliate_gravatar( $atts = array() ) {
 
@@ -251,7 +284,4 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	 }
 
-
-
 }
-new AffiliateWP_Affiliate_Landing_Pages_Functions;

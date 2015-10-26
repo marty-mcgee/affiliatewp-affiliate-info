@@ -2,11 +2,11 @@
 /**
  * Plugin Name: AffiliateWP - Affiliate Landing Pages
  * Plugin URI: http://affiliatewp.com/
- * Description:
+ * Description: Show information about your affiliates based on the affiliate referral URL used
  * Author: Pippin Williamson and Andrew Munro
  * Author URI: http://affiliatewp.com
  * Version: 1.0
- * Text Domain: affiliatewp-plugin-template
+ * Text Domain: affiliatewp-affiliate-landing-pages
  * Domain Path: languages
  *
  * AffiliateWP is distributed under the terms of the GNU General Public License as published by
@@ -25,14 +25,14 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
+if ( ! class_exists( 'AffiliateWP_Affiliate_Landing_Pages' ) ) {
 
-	final class AffiliateWP_Restrict_To_Affiliates {
+	final class AffiliateWP_Affiliate_Landing_Pages {
 
 		/**
 		 * Holds the instance
 		 *
-		 * Ensures that only one instance of AffiliateWP_Restrict_To_Affiliates exists in memory at any one
+		 * Ensures that only one instance of AffiliateWP_Affiliate_Landing_Pages exists in memory at any one
 		 * time and it also prevents needing to define globals all over the place.
 		 *
 		 * TL;DR This is a static property property that holds the singleton instance.
@@ -49,7 +49,7 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		private $version = '1.0';
+		private $version = '1.0.0';
 
 		/**
 		 * Functions
@@ -59,20 +59,20 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		public $functions;
 
 		/**
-		 * Main AffiliateWP_Restrict_To_Affiliates Instance
+		 * Main AffiliateWP_Affiliate_Landing_Pages Instance
 		 *
-		 * Insures that only one instance of AffiliateWP_Restrict_To_Affiliates exists in memory at any one
+		 * Insures that only one instance of AffiliateWP_Affiliate_Landing_Pages exists in memory at any one
 		 * time. Also prevents needing to define globals all over the place.
 		 *
 		 * @since 1.0
 		 * @static
 		 * @static var array $instance
-		 * @return The one true AffiliateWP_Restrict_To_Affiliates
+		 * @return The one true AffiliateWP_Affiliate_Landing_Pages
 		 */
 		public static function instance() {
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof AffiliateWP_Restrict_To_Affiliates ) ) {
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof AffiliateWP_Affiliate_Landing_Pages ) ) {
 
-				self::$instance = new AffiliateWP_Restrict_To_Affiliates;
+				self::$instance = new AffiliateWP_Affiliate_Landing_Pages;
 				self::$instance->setup_constants();
 				self::$instance->load_textdomain();
 				self::$instance->includes();
@@ -97,7 +97,7 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		 */
 		public function __clone() {
 			// Cloning instances of the class is forbidden
-			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-plugin-template' ), '1.0' );
+			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-affiliate-landing-pages' ), '1.0' );
 		}
 
 		/**
@@ -109,7 +109,7 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		 */
 		public function __wakeup() {
 			// Unserializing instances of the class is forbidden
-			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-plugin-template' ), '1.0' );
+			_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-affiliate-landing-pages' ), '1.0' );
 		}
 
 		/**
@@ -142,23 +142,23 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		 */
 		private function setup_constants() {
 			// Plugin version
-			if ( ! defined( 'AFFWP_PT_VERSION' ) ) {
-				define( 'AFFWP_PT_VERSION', $this->version );
+			if ( ! defined( 'AFFWP_ALP_VERSION' ) ) {
+				define( 'AFFWP_ALP_VERSION', $this->version );
 			}
 
 			// Plugin Folder Path
-			if ( ! defined( 'AFFWP_PT_PLUGIN_DIR' ) ) {
-				define( 'AFFWP_PT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+			if ( ! defined( 'AFFWP_ALP_PLUGIN_DIR' ) ) {
+				define( 'AFFWP_ALP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 			}
 
 			// Plugin Folder URL
-			if ( ! defined( 'AFFWP_PT_PLUGIN_URL' ) ) {
-				define( 'AFFWP_PT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+			if ( ! defined( 'AFFWP_ALP_PLUGIN_URL' ) ) {
+				define( 'AFFWP_ALP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 			}
 
 			// Plugin Root File
-			if ( ! defined( 'AFFWP_PT_PLUGIN_FILE' ) ) {
-				define( 'AFFWP_PT_PLUGIN_FILE', __FILE__ );
+			if ( ! defined( 'AFFWP_ALP_PLUGIN_FILE' ) ) {
+				define( 'AFFWP_ALP_PLUGIN_FILE', __FILE__ );
 			}
 		}
 
@@ -173,25 +173,25 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 
 			// Set filter for plugin's languages directory
 			$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
-			$lang_dir = apply_filters( 'AffiliateWP_Restrict_To_Affiliates_languages_directory', $lang_dir );
+			$lang_dir = apply_filters( 'affiliatewp_affiliate_landing_pages_languages_directory', $lang_dir );
 
 			// Traditional WordPress plugin locale filter
-			$locale   = apply_filters( 'plugin_locale',  get_locale(), 'affiliatewp-plugin-template' );
-			$mofile   = sprintf( '%1$s-%2$s.mo', 'affiliatewp-plugin-template', $locale );
+			$locale   = apply_filters( 'plugin_locale',  get_locale(), 'affiliatewp-affiliate-landing-pages' );
+			$mofile   = sprintf( '%1$s-%2$s.mo', 'affiliatewp-affiliate-landing-pages', $locale );
 
 			// Setup paths to current locale file
 			$mofile_local  = $lang_dir . $mofile;
-			$mofile_global = WP_LANG_DIR . '/affiliatewp-plugin-template/' . $mofile;
+			$mofile_global = WP_LANG_DIR . '/affiliatewp-affiliate-landing-pages/' . $mofile;
 
 			if ( file_exists( $mofile_global ) ) {
-				// Look in global /wp-content/languages/affiliatewp-plugin-template/ folder
-				load_textdomain( 'affiliatewp-plugin-template', $mofile_global );
+				// Look in global /wp-content/languages/affiliatewp-affiliate-landing-pages/ folder
+				load_textdomain( 'affiliatewp-affiliate-landing-pages', $mofile_global );
 			} elseif ( file_exists( $mofile_local ) ) {
-				// Look in local /wp-content/plugins/affiliatewp-plugin-template/languages/ folder
-				load_textdomain( 'affiliatewp-plugin-template', $mofile_local );
+				// Look in local /wp-content/plugins/affiliatewp-affiliate-landing-pages/languages/ folder
+				load_textdomain( 'affiliatewp-affiliate-landing-pages', $mofile_local );
 			} else {
 				// Load the default language files
-				load_plugin_textdomain( 'affiliatewp-plugin-template', false, $lang_dir );
+				load_plugin_textdomain( 'affiliatewp-affiliate-landing-pages', false, $lang_dir );
 			}
 		}
 
@@ -203,10 +203,8 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		 * @return      void
 		 */
 		private function includes() {
-		//	require_once self::$plugin_dir . 'includes/file-name.php';
-			require_once AFFWP_PT_PLUGIN_DIR . 'includes/class-shortcodes.php';
-
-			require_once AFFWP_PT_PLUGIN_DIR . 'includes/class-functions.php';
+			require_once AFFWP_ALP_PLUGIN_DIR . 'includes/class-shortcodes.php';
+			require_once AFFWP_ALP_PLUGIN_DIR . 'includes/class-functions.php';
 		}
 
 
@@ -220,11 +218,13 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		 */
 		private function hooks() {
 
+			// add bio field to registration form.
+			// @todo make this an option
 			add_action( 'affwp_register_fields_before_tos', array( $this, 'add_bio_field' ) );
 
+			// save/update bio field
 			add_action( 'personal_options_update', array( $this, 'save_bio_field' ) );
 			add_action( 'edit_user_profile_update', array( $this, 'save_bio_field' ) );
-
 			add_action( 'user_register', array( $this, 'update_bio_field' ) );
 			add_action( 'affwp_process_register_form', array( $this, 'update_bio_field' ) );
 
@@ -247,7 +247,7 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 		public function plugin_meta( $links, $file ) {
 		    if ( $file == plugin_basename( __FILE__ ) ) {
 		        $plugins_link = array(
-		            '<a title="' . __( 'Get more add-ons for AffiliateWP', 'affiliatewp-plugin-template' ) . '" href="http://affiliatewp.com/addons/" target="_blank">' . __( 'More add-ons', 'affiliatewp-plugin-template' ) . '</a>'
+		            '<a title="' . __( 'Get more add-ons for AffiliateWP', 'affiliatewp-affiliate-landing-pages' ) . '" href="https://affiliatewp.com/addons/" target="_blank">' . __( 'More add-ons', 'affiliatewp-affiliate-landing-pages' ) . '</a>'
 		        );
 
 		        $links = array_merge( $links, $plugins_link );
@@ -258,14 +258,16 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 
 		/**
 		 * Add bio field to registration form
+		 *
+		 * @since 1.0.0
 		 */
 		public function add_bio_field() {
 
-			$bio = sanitize_text_field( $_POST['affwp_bio'] );
+			$bio = isset( $_POST['affwp_bio'] ) ? sanitize_text_field( $_POST['affwp_bio'] ) : '';
 
 			?>
 			<p>
-				<label for="affwp-bio"><?php _e( 'Bio', 'affiliate-wp' ); ?></label>
+				<label for="affwp-bio"><?php _e( 'Bio', 'affiliatewp-affiliate-landing-pages' ); ?></label>
 				<textarea id="affwp-bio" name="affwp_bio" rows="5" cols="30"><?php if ( ! empty( $bio ) ) { echo esc_textarea( $bio ); } ?></textarea>
 			</p>
 			<?php
@@ -273,6 +275,8 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 
 		/**
 		 * Save the fields when the values are changed on the profile page
+		 *
+		 * @since 1.0.0
 		*/
 		public function save_bio_field( $user_id ) {
 
@@ -280,12 +284,16 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 				return false;
 			}
 
-			update_user_meta( $user_id, 'description', $_POST['affwp_bio'] );
+			if ( isset( $_POST['affwp_bio'] ) ) {
+				update_user_meta( $user_id, 'description', $_POST['affwp_bio'] );
+			}
 
 		}
 
 		/**
 		 * Update the user's profile with the new bio value on affiliate registration
+		 *
+		 * @since 1.0.0
 		*/
 		public function update_bio_field( $user_id ) {
 
@@ -301,10 +309,12 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 
 		/**
 		 * Make the bio field required and show an error message when not filled in
+		 *
+		 * @since 1.0.0
 		 */
 		public function process_register_form() {
 
-			$affiliate_wp = affsiliate_wp();
+			$affiliate_wp = affiliate_wp();
 
 			if ( empty( $_POST['affwp_bio'] ) ) {
 				$affiliate_wp->register->add_error( 'bio_invalid', 'Please enter a bio' );
@@ -315,16 +325,16 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 	}
 
 	/**
-	 * The main function responsible for returning the one true AffiliateWP_Restrict_To_Affiliates
+	 * The main function responsible for returning the one true AffiliateWP_Affiliate_Landing_Pages
 	 * Instance to functions everywhere.
 	 *
 	 * Use this function like you would a global variable, except without needing
 	 * to declare the global.
 	 *
-	 * Example: <?php $AffiliateWP_Restrict_To_Affiliates = AffiliateWP_Restrict_To_Affiliates_load(); ?>
+	 * Example: <?php $affwp_alp = affiliatewp_landing_pages(); ?>
 	 *
 	 * @since 1.0
-	 * @return object The one true AffiliateWP_Restrict_To_Affiliates Instance
+	 * @return object The one true AffiliateWP_Affiliate_Landing_Pages Instance
 	 */
 	function affiliatewp_landing_pages() {
 
@@ -339,7 +349,7 @@ if ( ! class_exists( 'AffiliateWP_Restrict_To_Affiliates' ) ) {
 
 	    } else {
 
-	        return AffiliateWP_Restrict_To_Affiliates::instance();
+	        return AffiliateWP_Affiliate_Landing_Pages::instance();
 
 	    }
 	}
