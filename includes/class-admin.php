@@ -1,6 +1,6 @@
 <?php
 
-class AffiliateWP_Affiliate_Landing_Pages_Admin {
+class AffiliateWP_Affiliate_Info_Admin {
 
 	public function __construct() {
 		add_filter( 'affwp_settings_integrations', array( $this, 'settings' ) );
@@ -16,13 +16,13 @@ class AffiliateWP_Affiliate_Landing_Pages_Admin {
 	public function settings( $fields ) {
 
 		$fields['alp_header'] = array(
-			'name' => __( 'Affiliate Landing Pages', 'affiliatewp-affiliate-landing-pages' ),
+			'name' => __( 'Affiliate Info', 'affiliatewp-affiliate-info' ),
 			'type' => 'header'
 		);
 
 		$fields['alp_bio'] = array(
-			'name' => __( 'Show bio field', 'affiliatewp-affiliate-landing-pages' ),
-			'desc' => __( 'Add the biographical info field to the affiliate registration form.', 'affiliatewp-order-details-for-affiliates' ),
+			'name' => __( 'Show bio field', 'affiliatewp-affiliate-info' ),
+			'desc' => __( 'Add the biographical info field to the affiliate registration form.', 'affiliatewp-affiliate-info' ),
 			'type' => 'checkbox'
 		);
 
@@ -30,4 +30,4 @@ class AffiliateWP_Affiliate_Landing_Pages_Admin {
 	}
 
 }
-$affiliatewp_menu = new AffiliateWP_Affiliate_Landing_Pages_Admin;
+$affiliatewp_menu = new AffiliateWP_Affiliate_Info_Admin;

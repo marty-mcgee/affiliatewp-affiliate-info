@@ -1,4 +1,4 @@
-=== AffiliateWP - Affiliate Landing Pages ===
+=== AffiliateWP - Affiliate Info ===
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, affiliates, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, membership, referrals, marketing
 Requires at least: 3.3
@@ -7,9 +7,11 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Show information about your affiliates based on their referral URL
+Display information based on the affiliate's referral URL
 
 == Description ==
+
+
 
 **What is AffiliateWP?**
 

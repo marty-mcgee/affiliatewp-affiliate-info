@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: AffiliateWP - Affiliate Landing Pages\n"
-"POT-Creation-Date: 2015-10-26 22:56+1300\n"
+"Project-Id-Version: AffiliateWP - Affiliate Info\n"
+"POT-Creation-Date: 2015-10-27 20:21+1300\n"
 "PO-Revision-Date: 2015-04-04 11:12-0600\n"
 "Last-Translator: Andrew Munro, Sumobi <andrew@sumobi.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
@@ -17,24 +17,23 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../affiliatewp-affiliate-landing-pages.php:100
-#: ../affiliatewp-affiliate-landing-pages.php:112
+#: ../affiliatewp-affiliate-info.php:100 ../affiliatewp-affiliate-info.php:112
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: ../affiliatewp-affiliate-landing-pages.php:253
+#: ../affiliatewp-affiliate-info.php:253
 msgid "Get more add-ons for AffiliateWP"
 msgstr ""
 
-#: ../affiliatewp-affiliate-landing-pages.php:253
+#: ../affiliatewp-affiliate-info.php:253
 msgid "More add-ons"
 msgstr ""
 
-#: ../affiliatewp-affiliate-landing-pages.php:294
-msgid "Bio"
+#: ../affiliatewp-affiliate-info.php:294
+msgid "Biographical Info"
 msgstr ""
 
-#: ../affiliatewp-affiliate-landing-pages.php:347
+#: ../affiliatewp-affiliate-info.php:347
 msgid "Please enter a bio"
 msgstr ""
 
@@ -53,7 +52,7 @@ msgid "requires %s. Please install it to continue."
 msgstr ""
 
 #: ../includes/class-admin.php:19
-msgid "Affiliate Landing Pages"
+msgid "Affiliate Info"
 msgstr ""
 
 #: ../includes/class-admin.php:24

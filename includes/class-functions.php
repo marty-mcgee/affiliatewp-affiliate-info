@@ -1,6 +1,6 @@
 <?php
 
-class AffiliateWP_Affiliate_Landing_Pages_Functions {
+class AffiliateWP_Affiliate_Info_Functions {
 
 	public function __construct() {}
 
@@ -74,29 +74,6 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 	}
 
 	/**
-	 * Get the affiliate's details
-	 *
-	 * @since 1.0.0
-	 */
-	public function get_affiliate_details( $field_id = '' ) {
-
-		if ( ! $field_id ) {
-			return;
-		}
-
-		// get the currently logged in affiliate's details
-		$meta = affwp_get_affiliate_meta( affwp_get_affiliate_id(), 'affiliate_details', true );
-
-		if ( $meta ) {
-			return $meta[$field_id]['value'];
-		}
-
-		return false;
-
-	}
-
-
-	/**
 	 * Get the affiliate's display name
 	 *
 	 * @since 1.0.0
@@ -155,6 +132,23 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 	}
 
 	/**
+	 * Get the affiliate's email
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_affiliate_email() {
+
+		$affiliate_id = $this->get_affiliate_id();
+
+		if ( $affiliate_id ) {
+			return affwp_get_affiliate_email( $affiliate_id );
+		}
+
+		return false;
+
+	}
+
+	/**
 	* Get the affiliate's gravatar
 	*
 	* @since 1.0.0
@@ -165,7 +159,7 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	   if ( $affiliate_id ) {
 
-		   $args = apply_filters( 'affwp_affiliate_landing_pages_gravatar_defaults', array(
+		   $args = apply_filters( 'affwp_affiliate_info_gravatar_defaults', array(
 			   'size'    => 96,
 			   'default' => '',
 			   'alt'     => $this->get_affiliate_name()
@@ -180,130 +174,5 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 	   return false;
 
    }
-
-	/**
-	 * Display the affiliate's bio
-	 *
-	 * @since 1.0.0
-	 */
-	 public function show_affiliate_bio( $atts = array() ) {
-
-		ob_start();
-
-		if ( $this->get_affiliate_bio() ) {
-
-			if ( $atts['title'] ) {
-				echo '<h2>' . $atts['title'] . '</h2>';
-			}
-
-			echo '<p>' . $this->get_affiliate_bio() . '</p>';
-
-		}
-
-		$html =  ob_get_clean();
-
-		return apply_filters( 'affwp_affiliate_landing_pages_bio', $html, $atts, $this->get_affiliate_bio() );
-
-	 }
-
-	 /**
-	  * Display the affiliate's name
-	  *
-	  * @since 1.0.0
-	  */
-	 public function show_affiliate_name( $atts = array() ) {
-
-		ob_start();
-
-		if ( $this->get_affiliate_name() ) {
-
-			if ( $atts['title'] ) {
-	 			echo '<h2>' . $atts['title'] . '</h2>';
-	 		}
-
-			echo '<p>' . $this->get_affiliate_name() . '</p>';
-
-		}
-
- 		$html =  ob_get_clean();
-
- 		return apply_filters( 'affwp_affiliate_landing_pages_name', $html, $atts, $this->get_affiliate_name() );
-
-	 }
-
-	 /**
-	  * Display the affiliate's username
-	  *
-	  * @since 1.0.0
-	  */
-	 public function show_affiliate_username( $atts = array() ) {
-
-		ob_start();
-
-		if ( $this->get_affiliate_username() ) {
-
-			if ( $atts['title'] ) {
-	 			echo '<h2>' . $atts['title'] . '</h2>';
-	 		}
-
-			echo '<p>' . $this->get_affiliate_username() . '</p>';
-
-		}
-
- 		$html =  ob_get_clean();
-
- 		return apply_filters( 'affwp_affiliate_landing_pages_username', $html, $atts, $this->get_affiliate_username() );
-
-	 }
-
-	 /**
-	  * Display the affiliate's website
-	  *
-	  * @since 1.0.0
-	  */
-	 public function show_affiliate_website( $atts = array() ) {
-
-		ob_start();
-
-		if ( $this->get_affiliate_website() ) {
-
-			if ( $atts['title'] ) {
-	 			echo '<h2>' . $atts['title'] . '</h2>';
-	 		}
-
-			echo '<p>' . $this->get_affiliate_website() . '</p>';
-
-		}
-
- 		$html =  ob_get_clean();
-
- 		return apply_filters( 'affwp_affiliate_landing_pages_website', $html, $atts, $this->get_affiliate_website() );
-
-	 }
-
-	 /**
-	  * Display the affiliate's gravatar
-	  *
-	  * @since 1.0.0
-	  */
-	 public function show_affiliate_gravatar( $atts = array() ) {
-
-		ob_start();
-
-		if ( $this->get_affiliate_gravatar() ) {
-
-			if ( $atts['title'] ) {
-	 			echo '<h2>' . $atts['title'] . '</h2>';
-	 		}
-
-			echo '<p>' . $this->get_affiliate_gravatar() . '</p>';
-
-		}
-
- 		$html =  ob_get_clean();
-
- 		return apply_filters( 'affwp_affiliate_landing_pages_gravatar', $html, $atts, $this->get_affiliate_gravatar() );
-
-	 }
 
 }
