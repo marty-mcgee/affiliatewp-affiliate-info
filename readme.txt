@@ -11,7 +11,59 @@ Display information based on the affiliate's referral URL
 
 == Description ==
 
+Affiliate Info allows you to show affiliate information based on the affiliate
+currently being tracked. When a user clicks an affiliate’s referral URL and
+arrives on your website, the affiliate’s ID is stored by AffiliateWP.
+Affiliate Info simply shows information based on the tracked affiliate.
 
+Let’s say you have an affiliate named John who shares his referral URL.
+Any user that clicks on John’s referral link can now see a variety of information
+about John, anywhere on your website.
+
+You can show:
+
+John’s WordPress display name
+John’s website URL
+John’s email address (be careful with this!)
+John’s gravatar image
+John’s WordPress username
+John’s biographical info (from his WordPress profile)
+John's Twitter username
+John's Facebook URL
+John's Google+ URL
+There are currently 9 shortcodes to show the information above:
+
+[affiliate_info_name]
+[affiliate_info_website]
+[affiliate_info_email]
+[affiliate_info_gravatar]
+[affiliate_info_username]
+[affiliate_info_bio]
+[affiliate_info_twitter]
+[affiliate_info_facebook]
+[affiliate_info_googleplus]
+
+If you’re a developer you can access this information directly with some useful
+PHP functions.
+
+Affiliate Info also works in tandem with AffiliateWP’s Credit Last Referrer option
+which means the information will change each time a new referral URL is used.
+
+Some potential uses for this add-on include:
+
+**Showing the customer who referred them**
+
+Show a custom message based on the affiliate being tracked. For example, “You’ve been referred by John” or “Your site representative is John”.
+
+**Allow the site visitor to contact the affiliate**
+
+There may be instances where your affiliates are in direct contact with your customers. Show the affiliate's email address, or add a form (Gravity Forms or another form plugin) which sends an email to the affiliate being tracked.
+
+Note, if you're going to show any form of email address out in the wild, make sure you protect it using one of the many plugins available on the WordPress repo.
+
+**Create a landing page**
+
+Create a landing page for your products that show the current tracked affiliate's information. This is especially useful if an affiliate does not have a website, or you want more control over how your products are advertised. Affiliates can link directly to your landing page with their referral URL, and their information will be displayed.
 
 **What is AffiliateWP?**
 
