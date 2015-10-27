@@ -2,8 +2,7 @@
 
 class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
-	public function __construct() {
-	}
+	public function __construct() {}
 
 	/**
 	 * Get the affiliate ID
@@ -98,7 +97,7 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 
 	/**
-	 * Get the affiliate's name
+	 * Get the affiliate's display name
 	 *
 	 * @since 1.0.0
 	 */
@@ -108,6 +107,30 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 		if ( $affiliate_id ) {
 			return affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Get the affiliate's username
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_affiliate_username() {
+
+		$affiliate_id = $this->get_affiliate_id();
+
+		if ( $affiliate_id ) {
+
+			$user_info = get_userdata( affwp_get_affiliate_user_id( $affiliate_id ) );
+
+			if ( $user_info ) {
+				$username  = esc_html( $user_info->user_login );
+				return esc_html( $username );
+			}
+
 		}
 
 		return false;
@@ -142,7 +165,7 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 	   if ( $affiliate_id ) {
 
-		   $args = apply_filters( 'affwp_lp_gravatar_defaults', array(
+		   $args = apply_filters( 'affwp_affiliate_landing_pages_gravatar_defaults', array(
 			   'size'    => 96,
 			   'default' => '',
 			   'alt'     => $this->get_affiliate_name()
@@ -159,7 +182,7 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
    }
 
 	/**
-	 * Display the affiliates bio
+	 * Display the affiliate's bio
 	 *
 	 * @since 1.0.0
 	 */
@@ -179,35 +202,9 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
 		$html =  ob_get_clean();
 
-		return apply_filters( 'affwp_lp_affiliate_bio', $html );
+		return apply_filters( 'affwp_affiliate_landing_pages_bio', $html, $atts, $this->get_affiliate_bio() );
 
 	 }
-
-	 /**
- 	 * Display the affiliates details
-	 *
-	 * @since 1.0.0
- 	 */
- 	 public function show_affiliate_details( $atts = array() ) {
-
- 		ob_start();
-
- 		//if ( $this->get_affiliate_bio() ) {
-
- 			if ( $atts['title'] ) {
- 				echo '<h2>' . $atts['title'] . '</h2>';
- 			}
-
- 			echo '<p>' . $this->get_affiliate_details( $atts['field'] ) . '</p>';
-
- 		//}
-
- 		$html =  ob_get_clean();
-
- 		return apply_filters( 'affwp_lp_affiliate_details', $html );
-
- 	 }
-
 
 	 /**
 	  * Display the affiliate's name
@@ -230,7 +227,32 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
  		$html =  ob_get_clean();
 
- 		return apply_filters( 'affwp_lp_affiliate_name', $html );
+ 		return apply_filters( 'affwp_affiliate_landing_pages_name', $html, $atts, $this->get_affiliate_name() );
+
+	 }
+
+	 /**
+	  * Display the affiliate's username
+	  *
+	  * @since 1.0.0
+	  */
+	 public function show_affiliate_username( $atts = array() ) {
+
+		ob_start();
+
+		if ( $this->get_affiliate_username() ) {
+
+			if ( $atts['title'] ) {
+	 			echo '<h2>' . $atts['title'] . '</h2>';
+	 		}
+
+			echo '<p>' . $this->get_affiliate_username() . '</p>';
+
+		}
+
+ 		$html =  ob_get_clean();
+
+ 		return apply_filters( 'affwp_affiliate_landing_pages_username', $html, $atts, $this->get_affiliate_username() );
 
 	 }
 
@@ -255,7 +277,7 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
  		$html =  ob_get_clean();
 
- 		return apply_filters( 'affwp_lp_affiliate_website', $html );
+ 		return apply_filters( 'affwp_affiliate_landing_pages_website', $html, $atts, $this->get_affiliate_website() );
 
 	 }
 
@@ -280,7 +302,7 @@ class AffiliateWP_Affiliate_Landing_Pages_Functions {
 
  		$html =  ob_get_clean();
 
- 		return apply_filters( 'affwp_lp_affiliate_gravatar', $html );
+ 		return apply_filters( 'affwp_affiliate_landing_pages_gravatar', $html, $atts, $this->get_affiliate_gravatar() );
 
 	 }
 

@@ -6,32 +6,17 @@ class AffiliateWP_Affiliate_Landing_Pages_Shortcodes {
 
         add_shortcode( 'affiliate_landing_page_bio', array( $this, 'shortcode_bio' ) );
 		add_shortcode( 'affiliate_landing_page_name', array( $this, 'shortcode_affiliate_name' ) );
+		add_shortcode( 'affiliate_landing_page_username', array( $this, 'shortcode_affiliate_username' ) );
 		add_shortcode( 'affiliate_landing_page_website', array( $this, 'shortcode_affiliate_website' ) );
 		add_shortcode( 'affiliate_landing_page_gravatar', array( $this, 'shortcode_affiliate_gravatar' ) );
 
 	}
 
-	/**
-    * [affiliate_details] shortcode
-    *
-    * @since  1.0
-    */
-    public function shortcode_affiliate_details( $atts, $content = null ) {
-
-		$atts = shortcode_atts( array(
-			'title' => '',
-			'field' => ''
-		), $atts, 'affiliate_details' );
-
-    	$content = affiliatewp_landing_pages()->functions->show_affiliate_details( $atts );
-
-    	return do_shortcode( $content );
-    }
 
     /**
     * [affiliate_landing_page_bio] shortcode
     *
-    * @since  1.0
+    * @since  1.0.0
     */
     public function shortcode_bio( $atts, $content = null ) {
 
@@ -45,15 +30,15 @@ class AffiliateWP_Affiliate_Landing_Pages_Shortcodes {
     }
 
 	/**
-    * [affiliate_landing_page_affiliate_name] shortcode
+    * [affiliate_landing_page_name] shortcode
     *
-    * @since  1.0
+    * @since  1.0.0
     */
     public function shortcode_affiliate_name( $atts, $content = null ) {
 
 		$atts = shortcode_atts( array(
 			'title' => '',
-		), $atts, 'affiliate_landing_page_affiliate_name' );
+		), $atts, 'affiliate_landing_page_name' );
 
     	$content = affiliatewp_landing_pages()->functions->show_affiliate_name( $atts );
 
@@ -61,15 +46,31 @@ class AffiliateWP_Affiliate_Landing_Pages_Shortcodes {
     }
 
 	/**
-    * [affiliate_landing_page_affiliate_website] shortcode
+	 * [affiliate_landing_page_username] shortcode
+	 *
+	 * @since  1.0.0
+	 */
+	function shortcode_affiliate_username( $atts, $content = null ) {
+
+		$atts = shortcode_atts( array(
+			'title' => '',
+		), $atts, 'affiliate_landing_page_username' );
+
+		$content = affiliatewp_landing_pages()->functions->show_affiliate_username( $atts );
+
+		return do_shortcode( $content );
+	}
+
+	/**
+    * [affiliate_landing_page_website] shortcode
     *
-    * @since  1.0
+    * @since  1.0.0
     */
     public function shortcode_affiliate_website( $atts, $content = null ) {
 
 		$atts = shortcode_atts( array(
 			'title' => '',
-		), $atts, 'affiliate_landing_page_affiliate_website' );
+		), $atts, 'affiliate_landing_page_website' );
 
     	$content = affiliatewp_landing_pages()->functions->show_affiliate_website( $atts );
 
@@ -77,15 +78,15 @@ class AffiliateWP_Affiliate_Landing_Pages_Shortcodes {
     }
 
 	/**
-    * [affiliate_landing_page_affiliate_website] shortcode
+    * [affiliate_landing_page_gravatar] shortcode
     *
-    * @since  1.0
+    * @since  1.0.0
     */
     public function shortcode_affiliate_gravatar( $atts, $content = null ) {
 
 		$atts = shortcode_atts( array(
 			'title' => '',
-		), $atts, 'affiliate_landing_page_affiliate_website' );
+		), $atts, 'affiliate_landing_page_gravatar' );
 
     	$content = affiliatewp_landing_pages()->functions->show_affiliate_gravatar( $atts );
 
