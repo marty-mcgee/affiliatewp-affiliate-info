@@ -91,6 +91,57 @@ class AffiliateWP_Affiliate_Info_Functions {
 	}
 
 	/**
+	 * Get the affiliate's Twitter username
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_twitter_username() {
+
+		$affiliate_id = $this->get_affiliate_id();
+
+		if ( $affiliate_id ) {
+			return get_the_author_meta( 'twitter', affwp_get_affiliate_user_id( $affiliate_id ) );
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Get the affiliate's Facebook URL
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_facebook_url() {
+
+		$affiliate_id = $this->get_affiliate_id();
+
+		if ( $affiliate_id ) {
+			return get_the_author_meta( 'facebook', affwp_get_affiliate_user_id( $affiliate_id ) );
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Get the affiliate's Google + URL
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_googleplus_url() {
+
+		$affiliate_id = $this->get_affiliate_id();
+
+		if ( $affiliate_id ) {
+			return get_the_author_meta( 'googleplus', affwp_get_affiliate_user_id( $affiliate_id ) );
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Get the affiliate's username
 	 *
 	 * @since 1.0.0

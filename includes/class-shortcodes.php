@@ -6,9 +6,13 @@ class AffiliateWP_Affiliate_Info_Shortcodes {
 
         add_shortcode( 'affiliate_info_bio', array( $this, 'shortcode_bio' ) );
 		add_shortcode( 'affiliate_info_name', array( $this, 'shortcode_affiliate_name' ) );
+		add_shortcode( 'affiliate_info_email', array( $this, 'shortcode_affiliate_email' ) );
 		add_shortcode( 'affiliate_info_username', array( $this, 'shortcode_affiliate_username' ) );
 		add_shortcode( 'affiliate_info_website', array( $this, 'shortcode_affiliate_website' ) );
 		add_shortcode( 'affiliate_info_gravatar', array( $this, 'shortcode_affiliate_gravatar' ) );
+		add_shortcode( 'affiliate_info_twitter', array( $this, 'shortcode_affiliate_twitter_username' ) );
+		add_shortcode( 'affiliate_info_facebook', array( $this, 'shortcode_affiliate_facebook' ) );
+		add_shortcode( 'affiliate_info_googleplus', array( $this, 'shortcode_affiliate_googleplus' ) );
 
 	}
 
@@ -37,6 +41,42 @@ class AffiliateWP_Affiliate_Info_Shortcodes {
     }
 
 	/**
+    * [affiliate_info_twitter] shortcode
+    *
+    * @since  1.0.0
+    */
+    public function shortcode_affiliate_twitter_username( $atts, $content = null ) {
+
+    	$content = affiliatewp_affiliate_info()->functions->get_twitter_username();
+
+    	return do_shortcode( $content );
+    }
+
+	/**
+    * [affiliate_info_facebook] shortcode
+    *
+    * @since  1.0.0
+    */
+    public function shortcode_affiliate_facebook( $atts, $content = null ) {
+
+    	$content = affiliatewp_affiliate_info()->functions->get_facebook_url();
+
+    	return do_shortcode( $content );
+    }
+
+	/**
+    * [affiliate_info_googleplus] shortcode
+    *
+    * @since  1.0.0
+    */
+    public function shortcode_affiliate_googleplus( $atts, $content = null ) {
+
+    	$content = affiliatewp_affiliate_info()->functions->get_googleplus_url();
+
+    	return do_shortcode( $content );
+    }
+
+	/**
 	 * [affiliate_info_username] shortcode
 	 *
 	 * @since  1.0.0
@@ -44,6 +84,18 @@ class AffiliateWP_Affiliate_Info_Shortcodes {
 	public function shortcode_affiliate_username( $atts, $content = null ) {
 
 		$content = affiliatewp_affiliate_info()->functions->get_affiliate_username();
+
+		return do_shortcode( $content );
+	}
+
+	/**
+	* [affiliate_info_email] shortcode
+	*
+	* @since  1.0.0
+	*/
+	public function shortcode_affiliate_email( $atts, $content = null ) {
+
+		$content = affiliatewp_affiliate_info()->functions->get_affiliate_email();
 
 		return do_shortcode( $content );
 	}

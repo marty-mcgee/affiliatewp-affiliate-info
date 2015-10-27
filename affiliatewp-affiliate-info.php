@@ -2,7 +2,7 @@
 /**
  * Plugin Name: AffiliateWP - Affiliate Info
  * Plugin URI: http://affiliatewp.com/
- * Description: Display information based on the affiliate's referral URL
+ * Description: Show information based on the affiliate's referral URL
  * Author: Pippin Williamson and Andrew Munro
  * Author URI: http://affiliatewp.com
  * Version: 1.0
