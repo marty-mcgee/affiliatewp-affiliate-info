@@ -5,7 +5,7 @@
  * Description: Show information based on the affiliate's referral URL
  * Author: Pippin Williamson and Andrew Munro
  * Author URI: http://affiliatewp.com
- * Version: 1.0
+ * Version: 1.0.1
  * Text Domain: affiliatewp-affiliate-info
  * Domain Path: languages
  *
@@ -49,7 +49,7 @@ if ( ! class_exists( 'AffiliateWP_Affiliate_Info' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		private $version = '1.0.0';
+		private $version = '1.0.1';
 
 		/**
 		 * Functions

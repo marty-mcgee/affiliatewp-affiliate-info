@@ -3,7 +3,7 @@ Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, affiliates, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, membership, referrals, marketing
 Requires at least: 3.3
 Tested up to: 4.3.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,26 +22,32 @@ about John, anywhere on your website.
 
 You can show:
 
-John’s WordPress display name
-John’s website URL
-John’s email address (be careful with this!)
-John’s gravatar image
-John’s WordPress username
-John’s biographical info (from his WordPress profile)
-John's Twitter username
-John's Facebook URL
-John's Google+ URL
+- John’s WordPress display name
+- John’s website URL
+- John’s email address (be careful with this!)
+- John’s gravatar image
+- John’s WordPress username
+- John’s biographical info (from his WordPress profile)
+- John's Twitter username
+- John's Facebook URL
+- John's Google+ URL
+
 There are currently 9 shortcodes to show the information above:
 
-[affiliate_info_name]
-[affiliate_info_website]
-[affiliate_info_email]
-[affiliate_info_gravatar]
-[affiliate_info_username]
-[affiliate_info_bio]
-[affiliate_info_twitter]
-[affiliate_info_facebook]
-[affiliate_info_googleplus]
+1. [affiliate_info_name]
+2. [affiliate_info_website]
+3. [affiliate_info_email]
+4. [affiliate_info_gravatar]
+5. [affiliate_info_username]
+6. [affiliate_info_bio]
+7. [affiliate_info_twitter]
+8. [affiliate_info_facebook]
+9. [affiliate_info_googleplus]
+
+There's also 2 shortcodes that you can embed the above in:
+
+1. [affiliate_info_referred] - show content only when an affiliate is being tracked
+2. [affiliate_info_not_referred] - show content only when an affiliate is not being tracked. Useful for providing a fallback.
 
 If you’re a developer you can access this information directly with some useful
 PHP functions.
@@ -53,7 +59,20 @@ Some potential uses for this add-on include:
 
 **Showing the customer who referred them**
 
-Show a custom message based on the affiliate being tracked. For example, “You’ve been referred by John” or “Your site representative is John”.
+Show a custom message based on the affiliate being tracked. For example,
+“You’ve been referred by John” or “Your site representative is John”.
+
+For example:
+
+Your site representative is [affiliate_info_name]
+
+If no affiliate is being tracked it will just show "Your site representative is "
+so use the [affiliate_info_referred] shortcode to make sure nothing is shown when
+no affiliate is being tracked.
+
+For example:
+
+[affiliate_info_referred]Your site representative is [affiliate_info_name][/affiliate_info_referred]
 
 **Allow the site visitor to contact the affiliate**
 
@@ -82,6 +101,9 @@ OR you can just install it with WordPress by going to Plugins >> Add New >> and 
 
 == Changelog ==
 
+= 1.0.1 =
+* New: [affiliate_info_referred] shortcode to show content only when an affiliate is being tracked
+* New: [affiliate_info_not_referred] shortcode to show content only when an affiliate is not being tracked. Useful for providing a fallback.
 
 = 1.0 =
 * Initial release

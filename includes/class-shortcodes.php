@@ -4,6 +4,8 @@ class AffiliateWP_Affiliate_Info_Shortcodes {
 
 	public function __construct() {
 
+		add_shortcode( 'affiliate_info_referred', array( $this, 'shortcode_affiliate_referred' ) );
+		add_shortcode( 'affiliate_info_not_referred', array( $this, 'shortcode_affiliate_not_referred' ) );
         add_shortcode( 'affiliate_info_bio', array( $this, 'shortcode_bio' ) );
 		add_shortcode( 'affiliate_info_name', array( $this, 'shortcode_affiliate_name' ) );
 		add_shortcode( 'affiliate_info_email', array( $this, 'shortcode_affiliate_email' ) );
@@ -15,6 +17,38 @@ class AffiliateWP_Affiliate_Info_Shortcodes {
 		add_shortcode( 'affiliate_info_googleplus', array( $this, 'shortcode_affiliate_googleplus' ) );
 
 	}
+
+	/**
+    * [affiliate_info_referred] shortcode
+    *1
+    * @since  1.0.1
+    */
+    public function shortcode_affiliate_referred( $atts, $content = null ) {
+
+		$affiliate_id = affiliatewp_affiliate_info()->functions->get_affiliate_id();
+
+		if ( ! $affiliate_id ) {
+			return;
+		}
+
+    	return do_shortcode( $content );
+    }
+
+	/**
+    * [affiliate_info_not_referred] shortcode
+    *
+    * @since  1.0.1
+    */
+    public function shortcode_affiliate_not_referred( $atts, $content = null ) {
+
+		$affiliate_id = affiliatewp_affiliate_info()->functions->get_affiliate_id();
+
+		if ( $affiliate_id ) {
+			return;
+		}
+
+    	return do_shortcode( $content );
+    }
 
     /**
     * [affiliate_info_bio] shortcode
