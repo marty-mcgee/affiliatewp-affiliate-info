@@ -6,6 +6,8 @@ class AffiliateWP_Affiliate_Info_Functions {
 
 	/**
 	 * Get the affiliate ID
+	 *
+	 * @since 1.0.0
 	 */
 	public function get_affiliate_id() {
 
@@ -20,9 +22,8 @@ class AffiliateWP_Affiliate_Info_Functions {
 		// if credit last referrer is enabled it needs to get the affiliate ID from the URL straight away
 		if ( $credit_last_referrer ) {
 
-			if ( isset( $wp_query->query[$referral_var] ) ) {
-				// get affiliate ID from query vars (pretty affiliate URLs)
-				$affiliate_id = $wp_query->query[$referral_var];
+			if ( $this->get_affiliate_id_from_query_vars() ) {
+				$affiliate_id = $this->get_affiliate_id_from_query_vars();
 			} elseif ( affiliate_wp()->tracking->get_affiliate_id() ) {
 				// get affiliate ID from cookies
 				$affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
@@ -36,9 +37,8 @@ class AffiliateWP_Affiliate_Info_Functions {
 			// get affiliate from cookie first
 			if ( affiliate_wp()->tracking->get_affiliate_id() ) {
 				$affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
-			} elseif ( isset( $wp_query->query[$referral_var] ) ) {
-				// get affiliate ID from query vars (pretty and non-pretty affiliate URLs)
-				$affiliate_id = $wp_query->query[$referral_var];
+			} elseif ( $this->get_affiliate_id_from_query_vars() ) {
+				$affiliate_id = $this->get_affiliate_id_from_query_vars();
 			} else {
 				// no affiliate ID
 				$affiliate_id = '';
@@ -53,6 +53,45 @@ class AffiliateWP_Affiliate_Info_Functions {
 
 		return false;
 
+	}
+
+	/**
+	 * Get the affiliate ID from the query vars
+	 *
+	 * @since 1.0.2
+	 */
+	private function get_affiliate_id_from_query_vars() {
+
+		global $wp_query;
+
+		// get referral variable (eg ref)
+		$referral_var = affiliate_wp()->tracking->get_referral_var();
+
+		if ( isset( $wp_query->query[$referral_var] ) ) {
+
+			if ( ! is_numeric( $wp_query->query[$referral_var] ) ) {
+				// username used instead of user ID
+
+				// get user by WP username
+				$user = get_user_by( 'login', $wp_query->query[$referral_var] );
+
+				// get the user ID
+				$user_id = $user->ID;
+
+				// get the affiliate ID from the user ID
+				$affiliate_id = affwp_get_affiliate_id( $user_id );
+
+			} else {
+				// affiliate ID was used instead of username
+				// Usernames must have at least 4 characters
+				$affiliate_id = $wp_query->query[$referral_var];
+			}
+
+			return $affiliate_id;
+
+		}
+
+		return false;
 	}
 
 	/**
