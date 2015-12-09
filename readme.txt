@@ -2,8 +2,8 @@
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, affiliates, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, membership, referrals, marketing
 Requires at least: 3.3
-Tested up to: 4.3.1
-Stable tag: 1.0.2
+Tested up to: 4.4
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ OR you can just install it with WordPress by going to Plugins >> Add New >> and 
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 1.0.3 =
+* Fix: Affiliate ID was not being retrieved correctly when a static front page is used.
 
 = 1.0.2 =
 * Fix: Removed old admin setting that was not needed.

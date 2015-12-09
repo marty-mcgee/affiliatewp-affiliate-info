@@ -11,8 +11,6 @@ class AffiliateWP_Affiliate_Info_Functions {
 	 */
 	public function get_affiliate_id() {
 
-		global $wp_query;
-
 		// credit last referrer enabled
 		$credit_last_referrer = affiliate_wp()->settings->get( 'referral_credit_last' );
 
@@ -22,8 +20,8 @@ class AffiliateWP_Affiliate_Info_Functions {
 		// if credit last referrer is enabled it needs to get the affiliate ID from the URL straight away
 		if ( $credit_last_referrer ) {
 
-			if ( $this->get_affiliate_id_from_query_vars() ) {
-				$affiliate_id = $this->get_affiliate_id_from_query_vars();
+			if ( $this->get_the_affiliate_id() ) {
+				$affiliate_id = $this->get_the_affiliate_id();
 			} elseif ( affiliate_wp()->tracking->get_affiliate_id() ) {
 				// get affiliate ID from cookies
 				$affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
@@ -37,8 +35,8 @@ class AffiliateWP_Affiliate_Info_Functions {
 			// get affiliate from cookie first
 			if ( affiliate_wp()->tracking->get_affiliate_id() ) {
 				$affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
-			} elseif ( $this->get_affiliate_id_from_query_vars() ) {
-				$affiliate_id = $this->get_affiliate_id_from_query_vars();
+			} elseif ( $this->get_the_affiliate_id() ) {
+				$affiliate_id = $this->get_the_affiliate_id();
 			} else {
 				// no affiliate ID
 				$affiliate_id = '';
@@ -56,38 +54,97 @@ class AffiliateWP_Affiliate_Info_Functions {
 	}
 
 	/**
-	 * Get the affiliate ID from the query vars
+	 * Get the affiliate ID from the referral value
 	 *
-	 * @since 1.0.2
+	 * @since 1.0.3
+	 * @param string $referral_value
+	 * @return $affiliate_id, false otherwise
 	 */
-	private function get_affiliate_id_from_query_vars() {
+	private function get_affiliate_id_from_referral_value( $referral_value = '' ) {
+
+		if ( ! is_numeric( $referral_value ) ) {
+			// username used instead of user ID
+
+			// get user by WP username
+			$user = get_user_by( 'login', $referral_value );
+
+			// get the user ID
+			$user_id = $user->ID;
+
+			// get the affiliate ID from the user ID
+			$affiliate_id = affwp_get_affiliate_id( $user_id );
+
+		} else {
+			// affiliate ID was used instead of username
+			// Usernames must have at least 4 characters
+			$affiliate_id = $referral_value;
+		}
+
+		if ( $affiliate_id ) {
+			return $affiliate_id;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Get the affiliate ID
+	 *
+	 * @since 1.0.3
+	 */
+	private function get_the_affiliate_id() {
 
 		global $wp_query;
 
-		// get referral variable (eg ref)
 		$referral_var = affiliate_wp()->tracking->get_referral_var();
 
-		if ( isset( $wp_query->query[$referral_var] ) ) {
+		/**
+		 * Gets the affiliate ID for instances where we're on the homepage, a static front page has been set
+		 * AffiliateWP removes the query var from the homepage (see unset_query_arg)
+		 * so the site's blog is not shown when a static page is used with a referral link
+		 * This is due to a core WordPress bug: https://core.trac.wordpress.org/ticket/25143
+		 *
+		 * @since 1.0.3
+		 */
+		if ( is_front_page() && get_option( 'page_on_front' ) ) {
 
-			if ( ! is_numeric( $wp_query->query[$referral_var] ) ) {
-				// username used instead of user ID
+			if ( isset( $_GET[$referral_var] ) && $_GET[$referral_var] ) {
 
-				// get user by WP username
-				$user = get_user_by( 'login', $wp_query->query[$referral_var] );
-
-				// get the user ID
-				$user_id = $user->ID;
-
-				// get the affiliate ID from the user ID
-				$affiliate_id = affwp_get_affiliate_id( $user_id );
+				// non-pretty affiliate referral URLs
+				$affiliate_id = $this->get_affiliate_id_from_referral_value( $_GET[$referral_var] );
 
 			} else {
-				// affiliate ID was used instead of username
-				// Usernames must have at least 4 characters
-				$affiliate_id = $wp_query->query[$referral_var];
+				// pretty affiliate URLs
+
+				// get the path of the current URL. eg /ref/john
+				$path = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
+
+				// explode the string into an array
+				$path_components = explode( '/', trim( $path, '/' ) );
+
+				// the first path component (eg ref) must match the referral variable set in Affiliates -> Settings -> General
+				$affiliate_id = $path_components[0] === $referral_var ? $this->get_affiliate_id_from_referral_value( $path_components[1] ) : '';
+
 			}
 
 			return $affiliate_id;
+
+		} else {
+
+			/**
+			 * Gets the affiliate ID when a cookie is not present, based on the query string, either ?ref=john or /ref/john
+			 *
+			 * @since 1.0.3
+			 */
+
+			if ( isset( $wp_query->query[$referral_var] ) ) {
+
+				$affiliate_id = $this->get_affiliate_id_from_referral_value( $wp_query->query[$referral_var] );
+
+				return $affiliate_id;
+
+			}
 
 		}
 
